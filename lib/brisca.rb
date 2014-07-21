@@ -61,7 +61,15 @@ class Round
 	end
 
 	def dif_pal
-		# if @second[:pal] == @@ruling_pal
+		partial_ruling = @played_cards[0][:pal]
+		initial_n = @played_cards.length
+		reduced = @played_cards.select { |card| card[:pal]==@@ruling_pal }
+		if (initial_n > reduced.length)&&(reduced.length > 0)
+			@played_cards = reduced
+			return same_pal
+		end
+		@played_cards.select! { |card| card[:pal]==partial_ruling }
+		return same_pal
 	end
 
 end

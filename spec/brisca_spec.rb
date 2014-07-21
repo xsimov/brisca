@@ -25,7 +25,7 @@ end
 
 describe "the 2 players game round" do
 
-	it "is won by the highest number, counting 1,3,12,11...4,2" do
+	it "is won by the highest number, counting 1,3,12,11...4,2 if same pal" do
 		card1 = {num: 3, pal: :orus}
 		card2 = {num: 1, pal: :orus}
 		expect(Round.new.play(card1, card2)).to eq("Player B")
@@ -52,5 +52,23 @@ describe "the 3 players game round" do
 		this_round = Round.ruling_pal(:copes)
 		this_round = Round.new.play(card1, card2, card3)
 		expect(this_round).to eq("Player B")
+	end
+
+	it "takes three cards of the different pal and outputs the partial ruling pal winner" do
+		card1 = {num: 9, pal: :orus}
+		card2 = {num: 1, pal: :espases}
+		card3 = {num: 2, pal: :bastos}
+		this_round = Round.ruling_pal(:copes)
+		this_round = Round.new.play(card1, card2, card3)
+		expect(this_round).to eq("Player A")
+	end
+
+	it "takes three cards of the different pal and outputs the TOTAL ruling pal winner" do
+		card1 = {num: 9, pal: :orus}
+		card2 = {num: 1, pal: :bastos}
+		card3 = {num: 2, pal: :copes}
+		this_round = Round.ruling_pal(:copes)
+		this_round = Round.new.play(card1, card2, card3)
+		expect(this_round).to eq("Player C")
 	end
 end
