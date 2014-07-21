@@ -44,12 +44,18 @@ class Round
 	end
 
 	def play(*cards)
+		return "Wrong number of players!" if (cards.length < 2)||(cards.length > 4)
+		binding.pry
 		@played_cards = []
 		players = ["A", "B", "C", "D"]
 		cards.each.with_index do |card, i|
 			card["player"] = players[i]
 			@played_cards.push(card)
 		end
+		router
+	end
+
+	def router
 		all_the_same = true
 		all_pals = [@played_cards[0][:pal]]
 		@played_cards.each do |card|
@@ -71,5 +77,5 @@ class Round
 		@played_cards.select! { |card| card[:pal]==partial_ruling }
 		return same_pal
 	end
-
 end
+

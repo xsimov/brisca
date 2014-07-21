@@ -23,6 +23,14 @@ describe "the card deck" do
 	end
 end
 
+describe "the game round" do
+	it "can't accept one single card play" do
+		card1 = {num: 3, pal: :orus}
+		this_round = Round.new.play(card1)
+		expect(this_round).to eq("Wrong number of players!")
+	end
+end
+
 describe "the 2 players game round" do
 
 	it "is won by the highest number, counting 1,3,12,11...4,2 if same pal" do
@@ -67,6 +75,18 @@ describe "the 3 players game round" do
 		card1 = {num: 9, pal: :orus}
 		card2 = {num: 1, pal: :bastos}
 		card3 = {num: 2, pal: :copes}
+		this_round = Round.ruling_pal(:copes)
+		this_round = Round.new.play(card1, card2, card3)
+		expect(this_round).to eq("Player C")
+	end
+end
+
+describe "the 4 players game round" do
+	it "accepts four parameters without crashing" do
+		card1 = {num: 9, pal: :orus}
+		card2 = {num: 1, pal: :bastos}
+		card3 = {num: 2, pal: :copes}
+		card3 = {num: 4, pal: :copes}
 		this_round = Round.ruling_pal(:copes)
 		this_round = Round.new.play(card1, card2, card3)
 		expect(this_round).to eq("Player C")
