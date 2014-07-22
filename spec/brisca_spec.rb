@@ -29,6 +29,16 @@ describe "the game round" do
 		this_round = Round.new.play(card1)
 		expect(this_round).to eq("Wrong number of players!")
 	end
+
+		it "can't accept more than four cards play" do
+		card1 = {num: 3, pal: :orus}
+		card2 = {num: 3, pal: :orus}
+		card3 = {num: 3, pal: :orus}
+		card4 = {num: 3, pal: :orus}
+		card5 = {num: 3, pal: :orus}
+		this_round = Round.new.play(card1,card2,card3,card4,card5)
+		expect(this_round).to eq("Wrong number of players!")
+	end
 end
 
 describe "the 2 players game round" do
@@ -90,5 +100,13 @@ describe "the 4 players game round" do
 		this_round = Round.ruling_pal(:copes)
 		this_round = Round.new.play(card1, card2, card3)
 		expect(this_round).to eq("Player C")
+	end
+end
+
+describe "the player" do
+
+	it "has a 3 card hand" do
+		daniel = Player.new
+		expect(daniel.hand.length).to eq(3)
 	end
 end

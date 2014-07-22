@@ -45,7 +45,6 @@ class Round
 
 	def play(*cards)
 		return "Wrong number of players!" if (cards.length < 2)||(cards.length > 4)
-		binding.pry
 		@played_cards = []
 		players = ["A", "B", "C", "D"]
 		cards.each.with_index do |card, i|
@@ -79,3 +78,15 @@ class Round
 	end
 end
 
+class Player
+
+	def initialize
+		@hand = []
+		3.times { @hand.push(Deck.new.draw_a_card) }
+	end
+
+	def hand
+		@hand
+	end
+
+end
