@@ -3,10 +3,10 @@ require 'pry'
 WHO_WINS = [2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 3, 1]
 
 class Card
-	attr_accessor :num, :pal, :rank, :player
-	def initialize(num, pal)
+	attr_accessor :num, :suite, :rank, :player
+	def initialize(num, suite)
 		@num = num
-		@pal = pal
+		@suite = suite
 	end
 
 end
@@ -18,8 +18,8 @@ class Deck
 		@all_deck = []
 		@drawn = []
 		(1..12).to_a.each do |num|
-			[:orus, :espases, :copes, :bastos].each do |pal|
-				@all_deck << Card.new(num, pal)
+			[:orus, :espases, :copes, :bastos].each do |suite|
+				@all_deck << Card.new(num, suite)
 			end
 		end
 	end
@@ -35,11 +35,19 @@ class Deck
 		end
 		final_card
 	end
+
+	def draw_some_cards(number)
+		@drawn_cards = []
+		number.times{
+			@drawn_cards.push(self.draw_a_card)
+		}
+		@drawn_cards
+	end
 end
 
 class Round
 
-	def same_pal
+	def same_suite
 		@played_cards.each do |card|
 			card.rank = WHO_WINS.index card.num
 		end
@@ -47,8 +55,8 @@ class Round
 		"Player #{@played_cards[0].player}"
 	end
 
-	def self.ruling_pal(pal)
-		@@ruling_pal = pal
+	def self.ruling_suite(suite)
+		@@ruling_suite = suite
 	end
 
 	def play(*cards)
@@ -64,33 +72,38 @@ class Round
 
 	def router
 		all_the_same = true
-		all_pals = [@played_cards[0].pal]
+		all_suites = [@played_cards[0].suite]
 		@played_cards.each do |card|
-			all_the_same = false unless all_pals.include? card.pal
-			all_pals.push(card.pal)
+			all_the_same = false unless all_suites.include? card.suite
+			all_suites.push(card.suite)
 		end
-		return same_pal if all_the_same
-		return dif_pal
+		return same_suite if all_the_same
+		return dif_suite
 	end
 
-	def dif_pal
-		partial_ruling = @played_cards[0].pal
+	def dif_suite
+		partial_ruling = @played_cards[0].suite
 		initial_n = @played_cards.length
-		reduced = @played_cards.select { |card| card.pal==@@ruling_pal }
+		reduced = @played_cards.select { |card| card.suite==@@ruling_suite }
 		if (initial_n > reduced.length)&&(reduced.length > 0)
 			@played_cards = reduced
-			return same_pal
+			return same_suite
 		end
-		@played_cards.select! { |card| card.pal==partial_ruling }
-		return same_pal
+		@played_cards.select! { |card| card.suite==partial_ruling }
+		return same_suite
 	end
 
 end
 
 class Player
-	attr_accessor :hand
+
 	def initialize(deck)
 		@hand = []
 		3.times { @hand.push(deck.draw_a_card) }
 	end
+
+	def shows_all_hand
+		@hand
+	end
+
 end
