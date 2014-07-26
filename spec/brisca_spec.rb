@@ -24,93 +24,105 @@ describe "the card deck" do
 end
 
 describe "the game round" do
-	it "can't accept one single card play" do
-		card1 = {num: 3, pal: :orus}
-		this_round = Round.new.play(card1)
-		expect(this_round).to eq("Wrong number of players!")
+	context "basics" do
+		it "can't accept one single card play" do
+			card1 = Card.new(3, :orus)
+			this_round = Round.new.play(card1)
+			expect(this_round).to eq("Wrong number of players!")
+		end
+
+			it "can't accept more than four cards play" do
+			card1 = Card.new(3, :orus)
+			card2 = Card.new(3, :orus)
+			card3 = Card.new(3, :orus)
+			card4 = Card.new(3, :orus)
+			card5 = Card.new(3, :orus)
+			this_round = Round.new.play(card1,card2,card3,card4,card5)
+			expect(this_round).to eq("Wrong number of players!")
+		end
 	end
 
-		it "can't accept more than four cards play" do
-		card1 = {num: 3, pal: :orus}
-		card2 = {num: 3, pal: :orus}
-		card3 = {num: 3, pal: :orus}
-		card4 = {num: 3, pal: :orus}
-		card5 = {num: 3, pal: :orus}
-		this_round = Round.new.play(card1,card2,card3,card4,card5)
-		expect(this_round).to eq("Wrong number of players!")
-	end
-end
+	context "with 2 players" do
 
-describe "the 2 players game round" do
+		it "is won by the highest number, counting 1,3,12,11...4,2 if same pal" do
+			card1 = Card.new(9, :orus)
+			card2 = Card.new(3, :orus)
+			expect(Round.new.play(card1, card2)).to eq("Player B")
+		end
 
-	it "is won by the highest number, counting 1,3,12,11...4,2 if same pal" do
-		card1 = {num: 3, pal: :orus}
-		card2 = {num: 1, pal: :orus}
-		expect(Round.new.play(card1, card2)).to eq("Player B")
+		it "is won by the first pal played if niether are the ruling pal" do
+			card1 = Card.new(9, :copes)
+			card2 = Card.new(3, :orus)
+			this_round = Round.ruling_pal(:espases)
+			this_round = Round.new.play(card1, card2)
+			expect(this_round).to eq("Player A")
+		end
 	end
 
-	it "is won by the first pal played if niether are the ruling pal" do
-		card1 = {num: 9, pal: :copes}
-		card2 = {num: 1, pal: :orus}
-		this_round = Round.ruling_pal(:espases)
-		this_round = Round.new.play(card1, card2)
-		expect(this_round).to eq("Player A")
-	end
-end
+	context "with 3 players " do
+		before(:each) do
+			@deck1 = Deck.new
+		end
 
-describe "the 3 players game round" do
-	before(:each) do
-		@deck1 = Deck.new
+		it "takes three cards of the same pal and outputs the rank winner" do
+			card1 = Card.new(9, :orus)
+			card2 = Card.new(1, :orus)
+			card3 = Card.new(2, :orus)
+			this_round = Round.ruling_pal(:copes)
+			this_round = Round.new.play(card1, card2, card3)
+			expect(this_round).to eq("Player B")
+		end
+
+		it "takes three cards of the different pal and outputs the partial ruling pal winner" do
+			card1 = Card.new(9, :orus)
+			card2 = Card.new(1, :espases)
+			card3 = Card.new(2, :bastos)
+			this_round = Round.ruling_pal(:copes)
+			this_round = Round.new.play(card1, card2, card3)
+			expect(this_round).to eq("Player A")
+		end
+
+		it "takes three cards of the different pal and outputs the TOTAL ruling pal winner" do
+			card1 = Card.new(9, :orus)
+			card2 = Card.new(1, :bastos)
+			card3 = Card.new(2, :copes)
+			this_round = Round.ruling_pal(:copes)
+			this_round = Round.new.play(card1, card2, card3)
+			expect(this_round).to eq("Player C")
+		end
 	end
 
-	it "takes three cards of the same pal and outputs the rank winner" do
-		card1 = {num: 9, pal: :orus}
-		card2 = {num: 1, pal: :orus}
-		card3 = {num: 2, pal: :orus}
-		this_round = Round.ruling_pal(:copes)
-		this_round = Round.new.play(card1, card2, card3)
-		expect(this_round).to eq("Player B")
+	context "with 4 players" do
+		it "accepts four parameters without crashing" do
+			card1 = Card.new(9, :orus)
+			card2 = Card.new(1, :espases)
+			card3 = Card.new(2, :copes)
+			card3 = Card.new(4, :copes)
+			this_round = Round.ruling_pal(:copes)
+			this_round = Round.new.play(card1, card2, card3)
+			expect(this_round).to eq("Player C")
+		end
 	end
 
-	it "takes three cards of the different pal and outputs the partial ruling pal winner" do
-		card1 = {num: 9, pal: :orus}
-		card2 = {num: 1, pal: :espases}
-		card3 = {num: 2, pal: :bastos}
-		this_round = Round.ruling_pal(:copes)
-		this_round = Round.new.play(card1, card2, card3)
-		expect(this_round).to eq("Player A")
-	end
-
-	it "takes three cards of the different pal and outputs the TOTAL ruling pal winner" do
-		card1 = {num: 9, pal: :orus}
-		card2 = {num: 1, pal: :bastos}
-		card3 = {num: 2, pal: :copes}
-		this_round = Round.ruling_pal(:copes)
-		this_round = Round.new.play(card1, card2, card3)
-		expect(this_round).to eq("Player C")
-	end
-end
-
-describe "the 4 players game round" do
-	it "accepts four parameters without crashing" do
-		card1 = {num: 9, pal: :orus}
-		card2 = {num: 1, pal: :bastos}
-		card3 = {num: 2, pal: :copes}
-		card3 = {num: 4, pal: :copes}
-		this_round = Round.ruling_pal(:copes)
-		this_round = Round.new.play(card1, card2, card3)
-		expect(this_round).to eq("Player C")
-	end
 end
 
 describe "the player" do
 
 	before(:each) do
-		daniel = Player.new
-		xavier = Player.new
+		@deck = Deck.new
+		@daniel = Player.new @deck
 	end
 
-	it "chooses a card from his hand and that card disappears" do
+	it "has a three-something hand at the beginning" do
+		expect(@daniel.hand.length).to eq(3)
+	end
+
+	it "has cards in its hand" do
+		expect(@daniel.hand[0]).to be_a(Card)
+	end
+
+	it "has one only one different card after playing one round" do
+		hand_before = @daniel.hand
 		
 	end
 
