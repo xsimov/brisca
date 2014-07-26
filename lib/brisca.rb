@@ -76,17 +76,5 @@ class Round
 		@played_cards.select! { |card| card[:pal]==partial_ruling }
 		return same_pal
 	end
-end
-
-class Player
-
-	def initialize
-		@hand = []
-		3.times { @hand.push(Deck.new.draw_a_card) }
-	end
-
-	def hand
-		@hand
-	end
 
 end

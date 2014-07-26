@@ -105,8 +105,13 @@ end
 
 describe "the player" do
 
-	it "has a 3 card hand" do
+	before(:each) do
 		daniel = Player.new
-		expect(daniel.hand.length).to eq(3)
+		xavier = Player.new
 	end
+
+	it "chooses a card from his hand and that card disappears" do
+		
+	end
+
 end
