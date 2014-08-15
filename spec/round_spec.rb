@@ -1,3 +1,6 @@
+require_relative '/lib/deck'
+require_relative '/lib/player'
+
 describe "the game round" do
   context "basics" do
     it "can't accept one single card play" do

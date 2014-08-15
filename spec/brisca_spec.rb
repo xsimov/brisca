@@ -1,4 +1,4 @@
-require_relative '../lib/brisca'
+require_relative '../lib/round'
 
 describe "the card deck" do
 
