@@ -1,3 +1,5 @@
+require_relative '../lib/round'
+
 describe "the game round" do
   context "basics" do
     it "can't accept one single card play" do
