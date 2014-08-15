@@ -1,5 +1,6 @@
 require 'pry'
-require_relative './deck'
+require 'deck'
+require 'player'
 
 WHO_WINS = [2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 3, 1]
 
@@ -49,19 +50,6 @@ class Round
 		end
 		@played_cards.select! { |card| card.suite==partial_ruling }
 		return same_suite
-	end
-
-end
-
-class Player
-
-	def initialize(deck)
-		@hand = []
-		3.times { @hand.push(deck.draw_a_card) }
-	end
-
-	def shows_all_hand
-		@hand
 	end
 
 end

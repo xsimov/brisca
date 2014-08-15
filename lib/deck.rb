@@ -1,15 +1,8 @@
-class Card
-  attr_accessor :num, :suite, :rank, :player
-  def initialize(num, suite)
-    @num = num
-    @suite = suite
-  end
-
-end
-
+require 'card'
 
 class Deck
   attr_accessor :all_deck, :drawn
+
   def initialize
     @all_deck = []
     @drawn = []
@@ -39,4 +32,5 @@ class Deck
     }
     @drawn_cards
   end
+
 end
