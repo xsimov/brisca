@@ -14,4 +14,9 @@ describe "the card deck" do
     48.times { @deck.draw_a_card }
     expect(@deck.all_deck.length).to eq(0)
   end
+
+  it "returns nil when trying to draw the 49th card" do
+    48.times { @deck.draw_a_card }
+    expect(@deck.draw_a_card).to eq(nil)
+  end
 end
