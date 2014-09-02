@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 require_relative '/lib/deck'
 require_relative '/lib/player'
+=======
+require_relative '../lib/round'
+>>>>>>> 87a8c8195e66c614416aa33fa56ba21199fd0d90
 
 describe "the game round" do
   context "basics" do
