@@ -1,21 +1,17 @@
-require_relative '../lib/deck'
+require 'game'
 
 describe "the card deck" do
 
-	before(:each) do
-		@deck = Deck.new
-	end
+  before(:each) do
+    @deck = Deck.new
+  end
 
-	it "has 48 cards" do
-		expect(@deck.all_deck.length).to eq(48)
-	end
+  it "has 48 cards" do
+    expect(@deck.all_deck.length).to eq(48)
+  end
 
-	it "never draws the same card twice" do
-		drawn_cards = @deck.draw_some_cards 48
-		check = true
-		@deck.all_deck.each do |card|
-			check = false unless drawn_cards.include? card
-		end
-		expect(check).to eq(true)
-	end
+  it "runs out of cards after drawing them all" do
+    48.times { @deck.draw_a_card }
+    expect(@deck.all_deck.length).to eq(0)
+  end
 end
