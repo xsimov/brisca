@@ -11,10 +11,14 @@ class Player
   end
 
   def play_a_card
-    chosen_card = @hand.sample
+    chosen_card = choose_a_card
     @hand.delete chosen_card
     @hand << @deck.draw_a_card
     chosen_card
   end
 
+  private
+  def choose_a_card
+    @hand.sample
+  end
 end
