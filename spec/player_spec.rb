@@ -11,12 +11,14 @@ describe "the player object" do
     expect(@daniel.assign_deck this_deck).to eq(this_deck)
   end
 
-  it "has a score meter" do
-    expect(@daniel.score).to eq(0)
-  end
-
   it "returns nil if it hasn't a deck assigned" do
     expect(@daniel.setup_first_hand).to eq(:nodeck)
+  end
+
+  context "score meter" do
+    it "exists and is initially 0" do
+      expect(@daniel.score).to eq(0)
+    end
   end
 
   context "upon having a deck assigned" do

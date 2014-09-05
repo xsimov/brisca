@@ -30,7 +30,7 @@ class Round
     all_suites = [@played_cards[0].suite]
     @played_cards.each do |card|
       all_the_same = false unless all_suites.include? card.suite
-      all_suites.push(card.suite)
+      all_suites << card.suite
     end
     return same_suite if all_the_same
     return dif_suite
@@ -44,7 +44,7 @@ class Round
       @played_cards = reduced
       return same_suite
     end
-    @played_cards.select! { |card| card.suite==partial_ruling }
+    @played_cards.select! { |card| card.suite == partial_ruling }
     return same_suite
   end
 
