@@ -16,7 +16,7 @@ describe "the player object" do
   end
 
   it "returns nil if it hasn't a deck assigned" do
-    expect(@daniel.setup_first_hand).to eq(:no_deck)
+    expect(@daniel.setup_first_hand).to eq(:nodeck)
   end
 
   context "upon having a deck assigned" do

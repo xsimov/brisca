@@ -11,6 +11,7 @@ class Player
   end
 
   def setup_first_hand
+    return :nodeck unless @deck
     3.times do
       @hand << @deck.draw_a_card
     end
