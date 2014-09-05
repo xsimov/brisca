@@ -15,7 +15,6 @@ class Player
     3.times do
       @hand << @deck.draw_a_card
     end
-    :ok
   end
 
   def play_a_card

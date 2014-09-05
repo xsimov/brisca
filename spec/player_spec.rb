@@ -38,7 +38,7 @@ describe "the player object" do
     end
 
     it "can set up its first hand by drawing 3 cards" do
-      expect(@daniel.setup_first_hand).to eq(:ok)
+      expect(@daniel.setup_first_hand).not_to eq(:nodeck)
     end
 
     it "chooses from its hand when asked to play" do
