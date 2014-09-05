@@ -2,15 +2,21 @@ require 'game'
 
 describe "the player object" do
 
+  before :each do
+    @daniel = Player.new
+  end
+
   it "can have a deck linked to it" do
-    daniel = Player.new
     this_deck = Deck.new
-    expect(daniel.assign_deck this_deck).to eq(this_deck)
+    expect(@daniel.assign_deck this_deck).to eq(this_deck)
   end
 
   it "has a score meter" do
-    daniel = Player.new
-    expect(daniel.score).to eq(0)
+    expect(@daniel.score).to eq(0)
+  end
+
+  it "returns nil if it hasn't a deck assigned" do
+    expect(@daniel.setup_first_hand).to eq(:no_deck)
   end
 
   context "upon having a deck assigned" do
