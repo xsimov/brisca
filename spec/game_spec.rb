@@ -4,7 +4,7 @@ describe "the game" do
     before :each do
       @deck = Deck.new
       @players = []
-      2.times { @players << Player.new @deck }
+      2.times { @players << Player.new(@deck) }
     end
 
     it "accepts a deck" do
