@@ -4,15 +4,11 @@ describe "the game" do
     before :each do
       @deck = Deck.new
       @players = []
-      2.times { @players << Player.new(@deck) }
+      2.times { @players << Player.new }
     end
 
-    it "accepts a deck" do
-      expect(Game.new @deck).to be_a(Game)
-    end
-
-    it "accepts 2 players" do
-      expect(Game.new @deck, @players)
+    it "accepts a deck and some players" do
+      expect(Game.new @deck, @players).to be_a(Game)
     end
   end
 end

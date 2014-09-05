@@ -11,14 +11,12 @@ describe "the player object" do
   context "upon having a deck assigned" do
     before(:each) do
       @deck = Deck.new
-      @daniel = Player.new @deck
-      @daniels_hand = []
-      @daniel.shows_all_hand.each do |card|
-        @daniels_hand << card
-      end
+      @daniel = Player.new
+      @daniel.assign_deck @deck
     end
 
     it "has a three-something hand at the beginning" do
+      @daniel.setup_first_hand
       expect(@daniel.shows_all_hand.length).to eq(3)
     end
 
@@ -28,7 +26,16 @@ describe "the player object" do
       end
     end
 
+    it "can set up its first hand by drawing 3 cards" do
+      expect(@daniel.setup_first_hand).to eq(:ok)
+    end
+
     it "chooses from its hand when asked to play" do
+      @daniel.setup_first_hand
+      @daniels_hand = []
+      @daniel.shows_all_hand.each do |card|
+        @daniels_hand << card
+      end
       expect(@daniels_hand).to include(@daniel.play_a_card)
     end
 
@@ -38,6 +45,7 @@ describe "the player object" do
     end
 
     it "still has 3 cards on its hand after playing" do
+      @daniel.setup_first_hand
       @daniel.play_a_card
       expect(@daniel.shows_all_hand.count).to eq(3)
     end
