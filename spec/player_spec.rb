@@ -8,6 +8,11 @@ describe "the player object" do
     expect(daniel.assign_deck this_deck).to eq(this_deck)
   end
 
+  it "has a score meter" do
+    daniel = Player.new
+    expect(daniel.score).to eq(0)
+  end
+
   context "upon having a deck assigned" do
     before(:each) do
       @deck = Deck.new
