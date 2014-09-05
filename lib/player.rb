@@ -3,6 +3,7 @@ class Player
 
   def initialize
     @hand = []
+    @score = 0
   end
 
   def shows_all_hand
