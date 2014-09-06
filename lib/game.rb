@@ -10,4 +10,8 @@ class Game
     @deck = deck
     @players = players
   end
+
+  def play_a_round
+    
+  end
 end

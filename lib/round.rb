@@ -15,7 +15,7 @@ class Round
   end
 
   def play(*cards)
-    return "Wrong number of players!" if (cards.length < 2)||(cards.length > 4)
+    return :wrongnplayers if not_between_2_and_4 cards
     @played_cards = []
     players = ["A", "B", "C", "D"]
     cards.each.with_index do |card, i|
@@ -46,6 +46,11 @@ class Round
     end
     @played_cards.select! { |card| card.suite == partial_ruling }
     return same_suite
+  end
+
+  private
+  def not_between_2_and_4 cards
+    (cards.length < 2)||(cards.length > 4)
   end
 
 end

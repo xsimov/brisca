@@ -1,17 +1,17 @@
 require 'game'
 
-describe "the game round" do
+describe "the round" do
   context "basics" do
     it "can't accept one single card play" do
       card1 = Card.new(3, :coins)
       this_round = Round.new.play(card1)
-      expect(this_round).to eq("Wrong number of players!")
+      expect(this_round).to eq(:wrongnplayers)
     end
 
       it "can't accept more than four cards play" do
       card1 = Card.new(3, :coins)
       this_round = Round.new.play(card1,card1,card1,card1,card1)
-      expect(this_round).to eq("Wrong number of players!")
+      expect(this_round).to eq(:wrongnplayers)
     end
   end
 
