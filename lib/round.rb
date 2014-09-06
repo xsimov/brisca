@@ -7,19 +7,21 @@ class Round
       card.rank = WHO_WINS.index card.num
     end
     @played_cards.sort! {|f, s| s.rank <=> f.rank}
-    "Player #{@played_cards[0].player}"
+    @@players[@played_cards[0].player]
   end
 
-  def self.ruling_suite(suite)
-    @@ruling_suite = suite
+  def self.set_ruling_suite(card)
+    @@ruling_suite = card.suite
   end
 
-  def play(*cards)
-    return :wrongnplayers if not_between_2_and_4 cards
+  def self.set_players players
+    @@players = players
+  end
+
+  def play(cards)
     @played_cards = []
-    players = ["A", "B", "C", "D"]
     cards.each.with_index do |card, i|
-      card.player = players[i]
+      card.player = i
       @played_cards.push(card)
     end
     router
@@ -39,7 +41,7 @@ class Round
   def dif_suite
     partial_ruling = @played_cards[0].suite
     initial_n = @played_cards.length
-    reduced = @played_cards.select { |card| card.suite==@@ruling_suite }
+    reduced = @played_cards.select { |card| card.suite == @@ruling_suite }
     if (initial_n > reduced.length)&&(reduced.length > 0)
       @played_cards = reduced
       return same_suite

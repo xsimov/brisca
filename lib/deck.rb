@@ -18,4 +18,7 @@ class Deck
     draw_a_card
   end
 
+  def ended?
+    @all_deck.length < 1
+  end
 end

@@ -1,18 +1,13 @@
 require 'game'
 
 describe "the round" do
-  context "basics" do
-    it "can't accept one single card play" do
-      card1 = Card.new(3, :coins)
-      this_round = Round.new.play(card1)
-      expect(this_round).to eq(:wrongnplayers)
-    end
 
-      it "can't accept more than four cards play" do
-      card1 = Card.new(3, :coins)
-      this_round = Round.new.play(card1,card1,card1,card1,card1)
-      expect(this_round).to eq(:wrongnplayers)
-    end
+  before :each do
+    @daniel = Player.new
+    @xavier = Player.new
+    @ness = Player.new
+    @guillem = Player.new
+    Round.set_players [@daniel, @xavier, @ness, @guillem]
   end
 
   context "with 2 players" do
@@ -20,15 +15,15 @@ describe "the round" do
     it "is won by the highest number, counting 1,3,12,11...4,2 if same suite" do
       card1 = Card.new(9, :coins)
       card2 = Card.new(3, :coins)
-      expect(Round.new.play(card1, card2)).to eq("Player B")
+      expect(Round.new.play([card1, card2])).to eq(@xavier)
     end
 
     it "is won by the first suite played if niether are the ruling suite" do
       card1 = Card.new(9, :cups)
       card2 = Card.new(3, :coins)
-      this_round = Round.ruling_suite(:swords)
-      this_round = Round.new.play(card1, card2)
-      expect(this_round).to eq("Player A")
+      Round.set_ruling_suite Card.new(2, :swords)
+      this_round = Round.new.play([card1, card2])
+      expect(this_round).to eq(@daniel)
     end
   end
 
@@ -41,27 +36,27 @@ describe "the round" do
       card1 = Card.new(9, :coins)
       card2 = Card.new(1, :coins)
       card3 = Card.new(2, :coins)
-      this_round = Round.ruling_suite(:cups)
-      this_round = Round.new.play(card1, card2, card3)
-      expect(this_round).to eq("Player B")
+      Round.set_ruling_suite Card.new(2, :cups)
+      this_round = Round.new.play([card1, card2, card3])
+      expect(this_round).to eq(@xavier)
     end
 
     it "takes three cards of the different suite and outputs the partial ruling suite winner" do
       card1 = Card.new(9, :coins)
       card2 = Card.new(1, :swords)
       card3 = Card.new(2, :clubs)
-      this_round = Round.ruling_suite(:cups)
-      this_round = Round.new.play(card1, card2, card3)
-      expect(this_round).to eq("Player A")
+      Round.set_ruling_suite Card.new(2, :cups)
+      this_round = Round.new.play([card1, card2, card3])
+      expect(this_round).to eq(@daniel)
     end
 
     it "takes three cards of the different suite and outputs the TOTAL ruling suite winner" do
       card1 = Card.new(9, :coins)
       card2 = Card.new(1, :clubs)
       card3 = Card.new(2, :cups)
-      this_round = Round.ruling_suite(:cups)
-      this_round = Round.new.play(card1, card2, card3)
-      expect(this_round).to eq("Player C")
+      Round.set_ruling_suite Card.new(5, :cups)
+      this_round = Round.new.play([card1, card2, card3])
+      expect(this_round).to eq(@ness)
     end
   end
 
@@ -71,9 +66,9 @@ describe "the round" do
       card2 = Card.new(1, :swords)
       card3 = Card.new(2, :cups)
       card3 = Card.new(4, :cups)
-      this_round = Round.ruling_suite(:cups)
-      this_round = Round.new.play(card1, card2, card3)
-      expect(this_round).to eq("Player C")
+      Round.set_ruling_suite Card.new(5, :cups)
+      this_round = Round.new.play([card1, card2, card3])
+      expect(this_round).to eq(@ness)
     end
   end
 

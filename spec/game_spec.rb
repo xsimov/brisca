@@ -34,21 +34,40 @@ describe "the game" do
 
     context "actually plays a round" do
 
-      it "asks every player for a card to play" do
-        old_hands = []
+      before :each do
+        @old_hands = []
         @players.each do |player|
-          old_hands << player.shows_all_hand
+          @old_hands << Array.new(player.shows_all_hand)
         end
+      end
+
+      it "asks every player for a card to play" do
         @game.play_a_round
         @players.each.with_index do |player, index|
-          expect(player.shows_all_hand).not_to eq(old_hands[index])
+          expect(player.shows_all_hand).not_to eq(@old_hands[index])
         end
       end
 
-      xit "the deck has a card less for every player" do
-        expect(@game.remaining_cards).to eq(48 - game.players.length)
+      it "assigns the played cards to the winner" do
+        winner = @game.play_a_round
+        winner.won_cards.each do |card|
+          expect(@old_hands.flatten).to include(card)
+        end
       end
+    end
+  end
 
+  context "play" do
+
+    before :each do
+      @players = []
+      2.times { @players << Player.new }
+      @game = Game.new @players
+    end
+
+    it "keeps playing rounds untill the deck runs out of cards" do
+      @game.play
+      expect(@game.deck.ended?).to be(true)
     end
   end
 end

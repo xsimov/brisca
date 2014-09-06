@@ -4,6 +4,7 @@ class Player
   def initialize
     @hand = []
     @score = 0
+    @won_cards = []
   end
 
   def shows_all_hand
@@ -26,6 +27,16 @@ class Player
 
   def assign_deck deck
     @deck = deck
+  end
+
+  def collect cards
+    cards.each do |card|
+      @won_cards << card
+    end
+  end
+
+  def won_cards
+    @won_cards
   end
 
   private
