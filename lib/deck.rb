@@ -1,24 +1,24 @@
 class Deck
-  attr_accessor :all_deck
+  attr_accessor :all_cards
 
   def initialize
-    @all_deck = []
+    @all_cards = []
     (1..12).to_a.each do |num|
       [:orus, :espases, :copes, :bastos].each do |suite|
-        @all_deck << Card.new(num, suite)
+        @all_cards << Card.new(num, suite)
       end
     end
   end
 
   def draw_a_card
     n = rand(48)
-    return nil unless @all_deck.length > 0
-    final_card = @all_deck[n]
-    return @all_deck.delete final_card if final_card
+    return nil unless @all_cards.length > 0
+    final_card = @all_cards[n]
+    return @all_cards.delete final_card if final_card
     draw_a_card
   end
 
   def ended?
-    @all_deck.length < 1
+    @all_cards.length < 1
   end
 end

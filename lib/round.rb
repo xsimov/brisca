@@ -2,23 +2,24 @@ WHO_WINS = [2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 3, 1]
 
 class Round
 
+  def self.setup ruling_suite
+    @@number_of_rounds ||= 0
+    @@ruling_suite = ruling_suite.suite
+  end
+
+  def initialize
+    @@number_of_rounds += 1
+  end
+
   def same_suite
     @played_cards.each do |card|
       card.rank = WHO_WINS.index card.num
     end
     @played_cards.sort! {|f, s| s.rank <=> f.rank}
-    @@players[@played_cards[0].player]
+    @played_cards[0].player
   end
 
-  def self.set_ruling_suite(card)
-    @@ruling_suite = card.suite
-  end
-
-  def self.set_players players
-    @@players = players
-  end
-
-  def play(cards)
+  def resolve(cards)
     @played_cards = []
     cards.each.with_index do |card, i|
       card.player = i
@@ -49,10 +50,4 @@ class Round
     @played_cards.select! { |card| card.suite == partial_ruling }
     return same_suite
   end
-
-  private
-  def not_between_2_and_4 cards
-    (cards.length < 2)||(cards.length > 4)
-  end
-
 end

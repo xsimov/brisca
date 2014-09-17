@@ -1,7 +1,7 @@
-require 'card'
-require 'deck'
-require 'round'
-require 'player'
+require_relative 'card'
+require_relative 'deck'
+require_relative 'round'
+require_relative 'player'
 
 class Game
   attr_accessor :players, :deck
@@ -17,22 +17,33 @@ class Game
     @players.each do |player|
       played_cards << player.play_a_card
     end
-    winner = Round.new.play played_cards
-    winner.collect played_cards
-    winner
+    winner = Round.new.resolve played_cards
+    @players[winner].collect played_cards
+    @players[winner]
   end
 
   def play
-    play_a_round until @deck.ended?
+    (48/@players.length).times { play_a_round }
   end
+
 
   private
   def prepare_the_game
+    set_ruling_suite @deck.draw_a_card
+    Round.setup @last_card
     @players.each do |player|
-      player.assign_deck @deck
-      player.setup_first_hand
+      3.times do
+        player.hand << @deck.draw_a_card
+      end
     end
-    Round.set_ruling_suite @deck.draw_a_card
-    Round.set_players @players
+  end
+
+  def set_ruling_suite card
+    @ruling_suite = card.suite
+    @last_card = card
+  end
+
+  def refill_hands
+    
   end
 end

@@ -2,7 +2,7 @@ guard :bundler do
   watch('Gemfile')
 end
 
-guard :rspec, all_after_pass: true do
+guard :rspec, run_all: true do
   watch(%r{^lib/(.+)\.rb$})     { "spec" }
   watch(%r{^spec/(.+)\.rb$})     { "spec" }
 end

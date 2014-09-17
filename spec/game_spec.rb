@@ -65,9 +65,9 @@ describe "the game" do
       @game = Game.new @players
     end
 
-    it "keeps playing rounds untill the deck runs out of cards" do
+    it "keeps playing rounds until all cards are played" do
       @game.play
-      expect(@game.deck.ended?).to be(true)
+      expect(@players.first.won_cards.length + @players.last.won_cards.length).to be(48)
     end
   end
 end
