@@ -12,7 +12,7 @@ describe "the player object" do
     end
   end
 
-  context "upon having a deck assigned" do
+  context "upon having a game setup" do
     before(:each) do
       @daniel = Player.new
       @xavier = Player.new
@@ -40,6 +40,11 @@ describe "the player object" do
     it "the card it chose disappears from its hand" do
       played_card = @daniel.play_a_card
       expect(@daniel.shows_all_hand).not_to include(played_card)
+    end
+
+    it "cannot draw a non-existing card (nil)" do
+      @game.play
+      expect(@daniel.shows_all_hand).not_to include(nil)
     end
   end
 end

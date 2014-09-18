@@ -1,3 +1,4 @@
+require 'pry'
 require_relative 'card'
 require_relative 'deck'
 require_relative 'round'
@@ -13,10 +14,7 @@ class Game
   end
 
   def play_a_round
-    played_cards = []
-    @players.each do |player|
-      played_cards << player.play_a_card
-    end
+    played_cards = select_round_cards
     winner = Round.new.resolve played_cards
     @players[winner].collect played_cards
     refill_hands
@@ -24,7 +22,7 @@ class Game
   end
 
   def play
-    (48/@players.length).times { play_a_round }
+    (48/@players.length).times{ play_a_round }
   end
 
   private
@@ -46,7 +44,20 @@ class Game
   def refill_hands
     @players.each do |player|
       new_card = @deck.draw_a_card
-      player.hand << new_card ? new_card : @last_card
+      if new_card
+        player.hand << new_card
+      elsif @last_card
+        player.hand << @last_card
+        @last_card = nil
+      end
     end
+  end
+
+  def select_round_cards
+    playing = []
+    @players.each do |player|
+      playing << player.play_a_card
+    end
+    playing
   end
 end
