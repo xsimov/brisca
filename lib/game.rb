@@ -19,13 +19,13 @@ class Game
     end
     winner = Round.new.resolve played_cards
     @players[winner].collect played_cards
+    refill_hands
     @players[winner]
   end
 
   def play
     (48/@players.length).times { play_a_round }
   end
-
 
   private
   def prepare_the_game
@@ -44,6 +44,9 @@ class Game
   end
 
   def refill_hands
-    
+    @players.each do |player|
+      new_card = @deck.draw_a_card
+      player.hand << new_card ? new_card : @last_card
+    end
   end
 end

@@ -54,6 +54,13 @@ describe "the game" do
           expect(@old_hands.flatten).to include(card)
         end
       end
+
+      it "refills the players' hands after the round" do
+        @game.play_a_round
+        @players.each do |player|
+          expect(player.hand.length).to eq(3)
+        end
+      end
     end
   end
 

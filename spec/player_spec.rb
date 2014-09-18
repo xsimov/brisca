@@ -41,10 +41,5 @@ describe "the player object" do
       played_card = @daniel.play_a_card
       expect(@daniel.shows_all_hand).not_to include(played_card)
     end
-
-    it "still has 3 cards on its hand after playing" do
-      @daniel.play_a_card
-      expect(@daniel.shows_all_hand.count).to eq(3)
-    end
   end
 end
